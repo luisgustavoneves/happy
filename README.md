@@ -1,7 +1,7 @@
 happy
 =====
 
-Happiness meter for python. A sentiment analisys tool based on papers:
+Happiness meter for python. A sentiment analysis tool based on papers:
 
 http://www.uvm.edu/storylab/share/papers/dodds2014a/index.html
 
