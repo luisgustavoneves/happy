@@ -14,7 +14,7 @@ First download files for target language:
 
 http://www.uvm.edu/storylab/share/papers/dodds2014a/data.html
 
-Then configure your language at the begining of the code:
+Then configure your language at the beginning of the code:
 
 ```python
 LANG = "target_language"
