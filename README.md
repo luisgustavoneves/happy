@@ -18,6 +18,7 @@ Then configure your language at the begining of the code:
 
 ```python
 LANG = "target_language"
+```
 
 Usage
 -----
@@ -28,3 +29,4 @@ import happy as h
 print h.hi(text)
 # display text happiness graph for specified window. Also displays text slices with max and min scores.
 h.hgraph(text, 10000)
+```
