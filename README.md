@@ -10,11 +10,11 @@ http://www.uvm.edu/~cdanfort/research/dodds-danforth-johs-2009.pdf
 Setup
 -----
 
-- First download files for target language:
+First download files for target language:
 
 http://www.uvm.edu/storylab/share/papers/dodds2014a/data.html
 
-- Then configure your language at the begining of the code:
+Then configure your language at the begining of the code:
 
 ```python
 LANG = "target_language"
