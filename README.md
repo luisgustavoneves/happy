@@ -35,5 +35,4 @@ Requirements
 ------------
 
 - python 2.7
-- nltk
 - matplotlib (for happiness graph)
