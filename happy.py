@@ -11,6 +11,8 @@ SPECIAL_CHARS = ['.', ',', '!', '?']
 
 def get_words(text=''):
     words = []
+    pos = []
+    lastpos = 0
     words = TOKENIZER.tokenize(text)
     filtered_words = []
     for word in words:
@@ -19,16 +21,19 @@ def get_words(text=''):
         else:
             new_word = word.replace(",","").replace(".","")
             new_word = new_word.replace("!","").replace("?","")
+            lastpos =  text[lastpos:].find(new_word) + lastpos
             filtered_words.append(new_word)
-    return filtered_words
+            pos.append(lastpos)
+            lastpos = lastpos + len(new_word)
+    return filtered_words, pos
 
 def hi(s, ws=None):
 
-    if not ws: 
+    if not ws:
         s = s.lower()
         s = s.replace('\n', ' ')
-        ws = get_words(s)
-        
+        ws, pos = get_words(s)
+
     df = {}
     for w in ws:
          if w in wordlist and (float(scores[wordlist.index(w)].strip())<=3 or float(scores[wordlist.index(w)].strip())>=7):
@@ -39,8 +44,8 @@ def hi(s, ws=None):
     for k in df.keys():
         h = h + df[k]*float(scores[wordlist.index(k)].strip())
         f = f + df[k]
-        
-    if f>0: 
+
+    if f>0:
         return h/f
     else:
         return None
@@ -49,22 +54,22 @@ def hgraph(s, window):
 
     import matplotlib.pyplot as plt
 
-    s = s.lower()
-    s = s.replace('\n', ' ')
-    ws = get_words(s)
+    text = s.lower()
+    text = text.replace('\n', ' ')
+    ws, pos = get_words(text)
 
     i = 0
     h = []
-    
+
     maxhi = 0
-    minhi = 9999999999999999    
+    minhi = 9999999999999999
     maxi = 0
     mini = 0
 
     while(i+window<=len(ws)):
-    
+
         whi = hi('',ws[i:i+window])
-        
+
         if whi:
             if whi > maxhi:
                 maxhi = whi
@@ -73,30 +78,33 @@ def hgraph(s, window):
                 minhi= whi
                 mini= i
             h.append(whi)
-            
+
         i = i + 1
-        
+
     h.append(hi('',ws[i:]))
 
     # this helps figuring out if a small window is meaningful
-    print "Max score sequence:"
-    print " ".join(ws[maxi:maxi+window])
+    print "Max score sequence:", maxhi
+    print s[pos[maxi]:pos[maxi+window]+len(ws[maxi+window])]
     print
-    print "Min score sequence:"
-    print " ".join(ws[mini:mini+window])
-    
+    print "Min score sequence:", minhi
+    print s[pos[mini]:pos[mini+window]+len(ws[mini+window])]
+
     plt.plot(h)
     plt.show()
 
 if __name__ == "__main__":
 
-    s1 = '''Shiny Happy People (...)'''
+    s1 = '''Shiny Happy People (...)
+'''
 
-    s2 = '''Losing My Religion  (...)'''
+    s2 = '''Losing My Religion (...)
+'''
 
-    s3 = '''Stop Crying Your Heart Out  (...) '''
+    s3 = '''Stop Crying Your Heart Out (...)
+'''
 
     print hi(s1)
     print hi(s2)
     print hi(s3)
-    hgraph(open('priceandprejudice.txt','r').read(),10000)
+    hgraph(s3,20)
